@@ -1,0 +1,30 @@
+* {
+    background-color: black;
+    color: aliceblue;
+
+}
+
+body {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+
+html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+
+section {
+    scroll-snap-align: start;
+    height: 100vh;
+}
+
+.hi, .about, .projects, .fun{
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    padding: 0 10%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+}

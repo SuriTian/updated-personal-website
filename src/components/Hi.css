@@ -1,0 +1,10 @@
+.hi {
+    padding: 10px;
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    gap: 10rem;
+}
+
