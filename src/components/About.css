@@ -3,3 +3,10 @@
     align-items: center;
     gap: 10rem;
 }
+
+canvas {
+  width: 100%; 
+  height: auto;
+  display: block;
+  font-family: "Ubuntu";
+}

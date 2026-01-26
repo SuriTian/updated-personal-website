@@ -17,7 +17,7 @@ const items = [
     },
     {
         name: "SigMaps",
-        category: ["APIs", "Javascript/HTML/CSS", "Git"]
+        category: ["Gemini API", "Javascript/HTML/CSS", "Git"]
     },
     {
         name: "FlareRed",
@@ -29,7 +29,7 @@ function MultiFilters() {
     const [selectedFilters, setSelectedFilters] = useState([]);
     const [filteredItems, setfilteredItems] = useState(items);
 
-    let filters = ["C++", "C", "C#", "Java", "Javascript/HTML/CSS", "Python", "Git", "React", "Unity", "APIs"];
+    let filters = ["C#", "Javascript/HTML/CSS", "Python"];
     
     const handleFilterButtonClick = (selectedCategory) => {
         // unselect

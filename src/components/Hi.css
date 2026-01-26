@@ -38,6 +38,11 @@ section {
   margin: 0 10px;
 }
 
+.slide-image:hover {
+  transition: all 0.5s ease;
+  transform: scale(1.1);
+}
+
 .main-image {
   width: 600px;
   height: 250px;
