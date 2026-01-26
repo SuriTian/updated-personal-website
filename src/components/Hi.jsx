@@ -6,7 +6,7 @@ import Slider from 'react-slick';
 
 import businessImg from '../assets/Business.JPEG';
 import offworkImg from '../assets/Offwork.jpeg';
-import orientationImg from '../assets/orientation.jpg';
+import orientationImg from '../assets/Orientation.jpg';
 import duckImg from '../assets/Duck.png';
 
 import "slick-carousel/slick/slick.css";
