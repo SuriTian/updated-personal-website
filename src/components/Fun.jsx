@@ -7,7 +7,7 @@ import TicTacToe from './TicTacToe'
 
 const Fun = () => {
     return (
-        <section className='fun' id="fun">
+        <section className='fun' id='fun'>
             <h1>Fun!!!</h1>
             <p>Making TicTacToe was my introduction to React</p> 
             <TicTacToe/>
