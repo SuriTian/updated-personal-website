@@ -1,11 +1,14 @@
 import React from 'react';
 import { useState } from 'react'
 import './Fun.css'
+import TicTacToe from './TicTacToe'
 
 const Fun = () => {
     return (
         <section className='fun' id="fun">
             <h1>Fun!!!</h1>
+            <p>Making TicTacToe was my introduction to React, but I decided to extend it to ultimate tic tac toe add an AI to it. Try to win!</p>
+            <TicTacToe/>
         </section>
     );
 };

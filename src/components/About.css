@@ -3,23 +3,3 @@
     align-items: center;
     gap: 10rem;
 }
-
-.picture-carousel {
-  width: 80%;
-  margin: 0 auto;
-}
-
-.carousel-slide {
-  display: flex !important;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-}
-
-.slide-image {
-  width: 200px;
-  height: 250px;
-  object-fit: contain;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  margin: 0 10px;
-}

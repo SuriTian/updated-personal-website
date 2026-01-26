@@ -1,10 +1,47 @@
 .hi {
-    padding: 10px;
+  padding: 10px;
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
+}
+
+section {
+  scroll-margin-top: 70px;
 }
 
 .hero-content {
-    display: flex;
-    align-items: center;
-    gap: 10rem;
+  display: flex;
+  align-items: center;
+  gap: 10rem;
 }
 
+.picture-carousel {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.carousel-slide {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.slide-image {
+  width: 200px;
+  height: 250px;
+  object-fit: contain;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  margin: 0 10px;
+}
+
+.main-image {
+  width: 600px;
+  height: 250px;
+  object-fit: contain;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  margin: 0 10px;
+}
