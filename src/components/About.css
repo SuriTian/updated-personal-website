@@ -1,5 +1,33 @@
-.container {
-    display: flex;
-    align-items: center;
-    gap: 10rem;
+.about {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center
+}
+
+.about h1 {
+  margin: 0 0 2rem 0;
+  font-size: 2.8rem;
+}
+.word-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1.2rem;
+  max-width: 90%;
+}
+
+.word-cloud button {
+  background: transparent;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap; 
+}
+
+.word-cloud button:hover {
+  transform: scale(1.08);
 }
