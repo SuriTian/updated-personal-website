@@ -29,7 +29,7 @@ function MultiFilters() {
     const [selectedFilters, setSelectedFilters] = useState([]);
     const [filteredItems, setfilteredItems] = useState(items);
 
-    let filters = ["C++", "C", "C#", "Java", "Javascript/HTML/CSS", "Python", "Git", "React", "Unity", "APIs"];
+    let filters = ["C#", "Javascript/HTML/CSS", "Python", "Unity"];
     
     const handleFilterButtonClick = (selectedCategory) => {
         // unselect
