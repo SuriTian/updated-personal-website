@@ -105,7 +105,7 @@ function ModalDescription({idx, word, size}) {
             >
                 <Fade in={open} timeout={250}>
                     <Box sx={style}>
-                        <Typography variant="h6" component="h2" sx={{ mb: 2 }}>
+                        <Typography variant="h6" component="h2" sx={{ mb: 2, fontFamily: "Ubuntu" }}>
                             {config.title}
                         </Typography>
                         <Typography variant="p">
