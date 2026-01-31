@@ -7,6 +7,8 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { bgBG } from '@mui/material/locale';
+import Fade from '@mui/material/Fade';
+
 
 const style = {
   position: 'absolute',
@@ -101,14 +103,16 @@ function ModalDescription({idx, word, size}) {
                 }}
 
             >
-                <Box sx={style}>
-                    <Typography variant="h6" component="h2" sx={{ mb: 2 }}>
-                        {config.title}
-                    </Typography>
-                    <Typography variant="p">
-                        {config.content}
-                    </Typography>
-                </Box>
+                <Fade in={open} timeout={250}>
+                    <Box sx={style}>
+                        <Typography variant="h6" component="h2" sx={{ mb: 2 }}>
+                            {config.title}
+                        </Typography>
+                        <Typography variant="p">
+                            {config.content}
+                        </Typography>
+                    </Box>
+                </Fade>
             </Modal>
         </>
     );
