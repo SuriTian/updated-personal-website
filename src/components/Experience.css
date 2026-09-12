@@ -62,19 +62,9 @@
     background-color: transparent;
 }
 
-.experience-bullets {
-    margin: 14px 0 0 0;
-    padding-left: 1.2rem;
-    background-color: transparent;
-}
-
-.experience-bullets li {
-    margin-bottom: 8px;
+.experience-blurb {
+    margin: 12px 0 0 0;
     line-height: 1.5;
     font-size: 0.95rem;
     background-color: transparent;
-}
-
-.experience-bullets li:last-child {
-    margin-bottom: 0;
 }

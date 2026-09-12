@@ -108,7 +108,7 @@ function ProjectCard({ item }) {
             >
                 <Fade in={open} timeout={250}>
                     <Box sx={modalStyle}>
-                        <Typography variant="h6" component="h2" sx={{ mb: item.date ? 0.5 : 2, fontFamily: "Ubuntu" }}>
+                        <Typography variant="h6" component="h2" sx={{ mb: item.date ? 0.5 : 2 }}>
                             {item.name}
                         </Typography>
                         {item.date && (
