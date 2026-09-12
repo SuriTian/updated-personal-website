@@ -1,0 +1,80 @@
+.experience {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+.experience h1 {
+    margin: 0 0 2rem 0;
+    font-size: 2.8rem;
+    text-align: center;
+}
+
+.experience-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.experience-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 24px;
+    border-radius: 16px;
+    transition: transform 0.3s ease;
+}
+
+.experience-item:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.experience-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background-color: transparent;
+}
+
+.experience-role {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    background-color: transparent;
+}
+
+.experience-company {
+    margin: 4px 0 0 0;
+    font-size: 0.95rem;
+    color: #999;
+    background-color: transparent;
+}
+
+.experience-dates {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #999;
+    white-space: nowrap;
+    background-color: transparent;
+}
+
+.experience-bullets {
+    margin: 14px 0 0 0;
+    padding-left: 1.2rem;
+    background-color: transparent;
+}
+
+.experience-bullets li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+    font-size: 0.95rem;
+    background-color: transparent;
+}
+
+.experience-bullets li:last-child {
+    margin-bottom: 0;
+}

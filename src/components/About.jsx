@@ -32,8 +32,8 @@ const MODAL_CONFIG = {
     width: 400,
   },
   "(Programming) Languages": {
-    title: "Languages",
-    content: "JavaScript, React, Python, C++",
+    title: "Languages & Tools",
+    content: "C/C++, Python, Java, JavaScript, HTML/CSS — plus Node.js, Express.js, React, Three.js, Pytest, REST APIs, MySQL, and Redis.",
     width: 500,
   },
   "Horror": {
@@ -51,8 +51,8 @@ const MODAL_CONFIG = {
     content: "Interstellar 10/10"
   },
   "Leadership": {
-    title: "What I've been doing @ UWaterloo",
-    content: "Math Society Class Rep (Fall 25), EngSoc Rep (Winter 26), Academic Rep (Winter 26)"
+    title: "Software Engineering Class & EngSoc Rep",
+    content: "Elected representative for 140 students, serving as liaison between faculty and the Software Engineering Class of 2030 (Jan 2026–Present)."
   },
   "Entrepreneurship": {
     title: "Two Business Experiences @ Junior Achievement",

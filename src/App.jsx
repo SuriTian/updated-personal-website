@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Navbar from './components/Navbar'
 import Hi from './components/Hi'
 import About from './components/About'
+import Experience from './components/Experience'
 import Projects from './components/Projects'
 import Fun from './components/Fun'
 import Footer from './components/Footer'
@@ -13,6 +14,7 @@ function App() {
       <Navbar />
       <Hi />
       <About />
+      <Experience />
       <Projects />
       <Fun />
       <Footer />

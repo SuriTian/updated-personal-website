@@ -69,7 +69,7 @@ const Hi = () => {
                 <div className="left-content">
                     <h1>Hiiiiii I'm Suri Tian,</h1>
                     <p className='hero-description'>
-                        A 1B Software Engineering undergrad @ University of Waterloo. I have a casual interest in math, especially in Topology!
+                        A Software Engineering undergrad @ University of Waterloo. I have a casual interest in math, especially in Topology!
                     </p>
                 </div>
                 <div className="right-content">
