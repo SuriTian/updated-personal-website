@@ -1,8 +1,8 @@
 .physics-cloud {
     position: relative;
     width: 100%;
-    height: clamp(320px, 55vh, 480px);
-    max-width: 1000px;
+    height: clamp(520px, 88vh, 850px);
+    max-width: 1300px;
     margin: 0 auto;
     overflow: hidden;
     background-color: transparent;
@@ -22,7 +22,7 @@
     color: aliceblue;
     font-family: "Ubuntu", sans-serif;
     white-space: nowrap;
-    cursor: pointer;
+    cursor: grab;
     will-change: transform;
     transition: background 0.2s ease, border-color 0.2s ease;
 }
@@ -30,4 +30,42 @@
 .physics-pill:hover {
     background: rgba(255, 255, 255, 0.14);
     border-color: rgba(255, 255, 255, 0.4);
+}
+
+.physics-pill:active {
+    cursor: grabbing;
+}
+
+.physics-pill.pill-glitch {
+    animation: pillGlitchFlicker 0.38s steps(1, end);
+    z-index: 2;
+}
+
+.physics-pill.pill-glitch::after {
+    content: '';
+    position: absolute;
+    inset: -16px;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(125, 216, 255, 0.5) 40%, transparent 72%);
+    opacity: 0;
+    animation: pillGlitchExplode 0.38s ease-out;
+    pointer-events: none;
+}
+
+@keyframes pillGlitchFlicker {
+    0% { filter: none; opacity: 1; border-color: rgba(255, 255, 255, 0.15); }
+    10% { filter: invert(1) hue-rotate(180deg); opacity: 0.55; }
+    20% { filter: none; opacity: 1; }
+    30% { filter: brightness(3) saturate(0); border-color: #7dd8ff; }
+    40% { filter: none; }
+    55% { filter: invert(1); opacity: 0.5; }
+    65% { filter: none; border-color: #ffffff; }
+    80% { filter: brightness(2); opacity: 0.7; }
+    100% { filter: none; opacity: 1; border-color: rgba(255, 255, 255, 0.15); }
+}
+
+@keyframes pillGlitchExplode {
+    0% { opacity: 0; transform: scale(0.3); }
+    15% { opacity: 1; transform: scale(1.3); }
+    100% { opacity: 0; transform: scale(2.2); }
 }

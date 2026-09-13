@@ -50,6 +50,10 @@ const MODAL_CONFIG = {
         title: "Building Rockets (Sort Of)",
         content: "I'm on the Firmware team, writing the code that keeps our canard board's power rails alive and its sensors talking over I2C. Turns out embedded debugging is 10% coding and 90% wondering why the oscilloscope hates you.",
     },
+    "AI Drug Discovery": {
+        title: "Directed Reading Program",
+        content: "Spent a summer digging into AI-assisted drug design, and mostly ended up cataloguing how differently every paper measures \"success.\" Turns out reproducibility is its own research problem in this field.",
+    },
     "Entrepreneurship": {
         title: "Two Business Experiences @ Junior Achievement",
         content: "Repaw Styles VP of Tech, SereniSlimes President",
@@ -72,6 +76,7 @@ const WORDS = [
     ['Movies', 28],
     ['Leadership', 38],
     ['Waterloo Rocketry', 36],
+    ['AI Drug Discovery', 32],
     ['Entrepreneurship', 32],
     ['Music', 28],
 ];
@@ -83,11 +88,33 @@ function estimateSize(word, fontSize) {
     return { width, height };
 }
 
+// A pill counts as "resting" once it's nearly motionless for this many frames in a row.
+const REST_SPEED = 0.15;
+const REST_ANGULAR_SPEED = 0.01;
+const REST_FRAMES_NEEDED = 40;
+// How close to exactly upside-down (in radians) counts as "unreadable".
+const UPSIDE_DOWN_TOLERANCE = 0.65;
+const GLITCH_DURATION_MS = 380;
+const GLITCH_COOLDOWN_FRAMES = 60;
+
+// Signed angular distance from straight-up-or-down (i.e. from PI, wrapped either way).
+function distanceFromUpsideDown(angle) {
+    let normalized = angle % (Math.PI * 2);
+    if (normalized > Math.PI) normalized -= Math.PI * 2;
+    if (normalized < -Math.PI) normalized += Math.PI * 2;
+    return Math.min(Math.abs(normalized - Math.PI), Math.abs(normalized + Math.PI));
+}
+
 const PhysicsWordCloud = () => {
     const containerRef = useRef(null);
     const pillRefs = useRef([]);
     const [openIdx, setOpenIdx] = useState(null);
     const dims = useMemo(() => WORDS.map(([word, size]) => estimateSize(word, size)), []);
+    // Tracks the pill under the pointer at mousedown so we can tell a click apart from a
+    // drag: a dragged pill still ends up back under the cursor on release, so a plain
+    // onClick would fire for drags too.
+    const pointerDown = useRef({ idx: null, x: 0, y: 0, moved: false });
+    const DRAG_THRESHOLD = 6;
 
     useEffect(() => {
         const container = containerRef.current;
@@ -98,7 +125,7 @@ const PhysicsWordCloud = () => {
 
         const sizes = dims;
 
-        const engine = Matter.Engine.create({ gravity: { x: 0, y: 0 } });
+        const engine = Matter.Engine.create({ gravity: { x: 0, y: 0.7 } });
         const world = engine.world;
 
         const wallOpts = { isStatic: true, restitution: 1, friction: 0 };
@@ -121,14 +148,14 @@ const PhysicsWordCloud = () => {
             const y = ((row + 0.5) / Math.ceil(WORDS.length / cols)) * height + (Math.random() - 0.5) * 20;
 
             const body = Matter.Bodies.rectangle(x, y, w, h, {
-                restitution: 0.95,
-                frictionAir: 0.03,
-                friction: 0,
-                frictionStatic: 0,
+                restitution: 0.8,
+                frictionAir: 0.015,
+                friction: 0.05,
+                frictionStatic: 0.1,
                 chamfer: { radius: h / 2 },
             });
-            Matter.Body.setVelocity(body, { x: (Math.random() - 0.5) * 2, y: (Math.random() - 0.5) * 2 });
-            Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.03);
+            Matter.Body.setVelocity(body, { x: (Math.random() - 0.5) * 4, y: (Math.random() - 0.5) * 2 });
+            Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.08);
             return body;
         });
         Matter.Composite.add(world, bodies);
@@ -136,36 +163,110 @@ const PhysicsWordCloud = () => {
         const runner = Matter.Runner.create();
         Matter.Runner.run(runner, engine);
 
-        const mouse = { x: -9999, y: -9999 };
-        const handleMouseMove = (e) => {
-            const rect = container.getBoundingClientRect();
-            mouse.x = e.clientX - rect.left;
-            mouse.y = e.clientY - rect.top;
-        };
-        const handleMouseLeave = () => {
-            mouse.x = -9999;
-            mouse.y = -9999;
-        };
-        container.addEventListener('mousemove', handleMouseMove);
-        container.addEventListener('mouseleave', handleMouseLeave);
+        // Draggable pills: Matter's mouse constraint grabs whichever body is under the
+        // cursor and pulls it toward the pointer, integrated with the rest of the sim
+        // (so a dragged pill still collides with the others).
+        const mouse = Matter.Mouse.create(container);
+        // Matter's mouse also hijacks the wheel event for zoom demos; we don't want that
+        // (it would block the page's own scroll while hovering the cloud).
+        container.removeEventListener('mousewheel', mouse.mousewheel);
+        container.removeEventListener('DOMMouseScroll', mouse.mousewheel);
+        container.removeEventListener('wheel', mouse.mousewheel);
 
-        const repelRadius = 150;
-        const repelStrength = 0.0011;
+        const mouseConstraint = Matter.MouseConstraint.create(engine, {
+            mouse,
+            constraint: {
+                stiffness: 0.2,
+                damping: 0.15,
+                render: { visible: false },
+            },
+        });
+        Matter.Composite.add(world, mouseConstraint);
 
-        Matter.Events.on(engine, 'beforeUpdate', () => {
+        const handleWindowMouseMove = (e) => {
+            const state = pointerDown.current;
+            if (state.idx === null || state.moved) return;
+            if (Math.hypot(e.clientX - state.x, e.clientY - state.y) > DRAG_THRESHOLD) {
+                state.moved = true;
+            }
+        };
+        const handleWindowMouseUp = () => {
+            const state = pointerDown.current;
+            if (state.idx !== null && !state.moved) {
+                setOpenIdx(state.idx);
+            }
+            pointerDown.current = { idx: null, x: 0, y: 0, moved: false };
+        };
+        window.addEventListener('mousemove', handleWindowMouseMove);
+        window.addEventListener('mouseup', handleWindowMouseUp);
+
+        // Elevator jolt: scrolling down gives the whole cloud a pop of upward velocity,
+        // like the floor dropping out from under it for a moment.
+        const handleWheel = (e) => {
+            if (e.deltaY <= 0) return;
+            const kick = Math.min(e.deltaY, 120) * 0.09;
             bodies.forEach((body) => {
-                const dx = body.position.x - mouse.x;
-                const dy = body.position.y - mouse.y;
-                const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-                if (dist < repelRadius) {
-                    const force = (1 - dist / repelRadius) * repelStrength;
-                    Matter.Body.applyForce(body, body.position, {
-                        x: (dx / dist) * force,
-                        y: (dy / dist) * force,
-                    });
+                Matter.Body.setVelocity(body, {
+                    x: body.velocity.x + (Math.random() - 0.5) * kick * 0.3,
+                    y: body.velocity.y - kick * (0.7 + Math.random() * 0.6),
+                });
+                Matter.Body.setAngularVelocity(body, body.angularVelocity + (Math.random() - 0.5) * 0.05);
+            });
+        };
+        window.addEventListener('wheel', handleWheel, { passive: true });
+
+        const maxSpeed = 14;
+
+        Matter.Events.on(engine, 'afterUpdate', () => {
+            bodies.forEach((body) => {
+                if (Matter.Body.getSpeed(body) > maxSpeed) {
+                    Matter.Body.setSpeed(body, maxSpeed);
                 }
             });
         });
+
+        // If a pill comes to rest upside-down (unreadable), glitch it back upright.
+        const restFrames = new Array(bodies.length).fill(0);
+        const glitching = new Array(bodies.length).fill(false);
+        const cooldown = new Array(bodies.length).fill(0);
+
+        const triggerGlitch = (idx, body) => {
+            glitching[idx] = true;
+            const el = pillRefs.current[idx];
+            if (el) el.classList.add('pill-glitch');
+
+            Matter.Body.setVelocity(body, { x: (Math.random() - 0.5) * 6, y: -Math.random() * 4 });
+            Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.35);
+
+            setTimeout(() => {
+                Matter.Body.setAngle(body, 0);
+                Matter.Body.setAngularVelocity(body, 0);
+                if (el) el.classList.remove('pill-glitch');
+                glitching[idx] = false;
+                cooldown[idx] = GLITCH_COOLDOWN_FRAMES;
+            }, GLITCH_DURATION_MS);
+        };
+
+        const checkOrientation = () => {
+            bodies.forEach((body, idx) => {
+                if (glitching[idx]) return;
+                if (cooldown[idx] > 0) {
+                    cooldown[idx] -= 1;
+                    return;
+                }
+
+                const isResting = Matter.Body.getSpeed(body) < REST_SPEED
+                    && Math.abs(body.angularVelocity) < REST_ANGULAR_SPEED;
+                restFrames[idx] = isResting ? restFrames[idx] + 1 : 0;
+
+                if (restFrames[idx] >= REST_FRAMES_NEEDED) {
+                    restFrames[idx] = 0;
+                    if (distanceFromUpsideDown(body.angle) < UPSIDE_DOWN_TOLERANCE) {
+                        triggerGlitch(idx, body);
+                    }
+                }
+            });
+        };
 
         let rafId;
         const tick = () => {
@@ -176,14 +277,16 @@ const PhysicsWordCloud = () => {
                     el.style.transform = `translate(${body.position.x - w / 2}px, ${body.position.y - h / 2}px) rotate(${body.angle}rad)`;
                 }
             });
+            checkOrientation();
             rafId = requestAnimationFrame(tick);
         };
         tick();
 
         return () => {
             cancelAnimationFrame(rafId);
-            container.removeEventListener('mousemove', handleMouseMove);
-            container.removeEventListener('mouseleave', handleMouseLeave);
+            window.removeEventListener('mousemove', handleWindowMouseMove);
+            window.removeEventListener('mouseup', handleWindowMouseUp);
+            window.removeEventListener('wheel', handleWheel);
             Matter.Runner.stop(runner);
             Matter.Composite.clear(world, false);
             Matter.Engine.clear(engine);
@@ -202,7 +305,9 @@ const PhysicsWordCloud = () => {
                         width: dims[idx]?.width,
                         height: dims[idx]?.height,
                     }}
-                    onClick={() => setOpenIdx(idx)}
+                    onMouseDown={(e) => {
+                        pointerDown.current = { idx, x: e.clientX, y: e.clientY, moved: false };
+                    }}
                 >
                     {word}
                 </button>
