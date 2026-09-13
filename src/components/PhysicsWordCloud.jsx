@@ -69,35 +69,31 @@ const MODAL_CONFIG = {
 };
 
 const WORDS = [
-    ['Hobbies', 30],
-    ['(Programming) Languages', 46],
-    ['Horror', 28],
-    ['Coursework', 34],
-    ['Movies', 28],
-    ['Leadership', 38],
-    ['Waterloo Rocketry', 36],
-    ['AI Drug Discovery', 32],
-    ['Entrepreneurship', 32],
-    ['Music', 28],
+    ['Hobbies', 22],
+    ['(Programming) Languages', 34],
+    ['Horror', 20],
+    ['Coursework', 25],
+    ['Movies', 20],
+    ['Leadership', 28],
+    ['Waterloo Rocketry', 26],
+    ['AI Drug Discovery', 23],
+    ['Entrepreneurship', 23],
+    ['Music', 20],
 ];
 
-// Rough estimate of a pill's rendered box so physics bodies roughly match what's drawn.
 function estimateSize(word, fontSize) {
     const width = word.length * fontSize * 0.56 + 40;
     const height = fontSize + 30;
     return { width, height };
 }
 
-// A pill counts as "resting" once it's nearly motionless for this many frames in a row.
 const REST_SPEED = 0.15;
 const REST_ANGULAR_SPEED = 0.01;
 const REST_FRAMES_NEEDED = 40;
-// How close to exactly upside-down (in radians) counts as "unreadable".
 const UPSIDE_DOWN_TOLERANCE = 0.65;
 const GLITCH_DURATION_MS = 380;
 const GLITCH_COOLDOWN_FRAMES = 60;
 
-// Signed angular distance from straight-up-or-down (i.e. from PI, wrapped either way).
 function distanceFromUpsideDown(angle) {
     let normalized = angle % (Math.PI * 2);
     if (normalized > Math.PI) normalized -= Math.PI * 2;
@@ -110,9 +106,6 @@ const PhysicsWordCloud = () => {
     const pillRefs = useRef([]);
     const [openIdx, setOpenIdx] = useState(null);
     const dims = useMemo(() => WORDS.map(([word, size]) => estimateSize(word, size)), []);
-    // Tracks the pill under the pointer at mousedown so we can tell a click apart from a
-    // drag: a dragged pill still ends up back under the cursor on release, so a plain
-    // onClick would fire for drags too.
     const pointerDown = useRef({ idx: null, x: 0, y: 0, moved: false });
     const DRAG_THRESHOLD = 6;
 
@@ -137,8 +130,6 @@ const PhysicsWordCloud = () => {
             Matter.Bodies.rectangle(width + thickness / 2, height / 2, thickness, height + thickness * 2, wallOpts),
         ]);
 
-        // Lay bodies out on a rough grid first so they don't all spawn overlapping in the corner,
-        // then let physics settle/spread them out.
         const cols = Math.ceil(Math.sqrt(WORDS.length));
         const bodies = WORDS.map((_, idx) => {
             const { width: w, height: h } = sizes[idx];
@@ -163,12 +154,7 @@ const PhysicsWordCloud = () => {
         const runner = Matter.Runner.create();
         Matter.Runner.run(runner, engine);
 
-        // Draggable pills: Matter's mouse constraint grabs whichever body is under the
-        // cursor and pulls it toward the pointer, integrated with the rest of the sim
-        // (so a dragged pill still collides with the others).
         const mouse = Matter.Mouse.create(container);
-        // Matter's mouse also hijacks the wheel event for zoom demos; we don't want that
-        // (it would block the page's own scroll while hovering the cloud).
         container.removeEventListener('mousewheel', mouse.mousewheel);
         container.removeEventListener('DOMMouseScroll', mouse.mousewheel);
         container.removeEventListener('wheel', mouse.mousewheel);
@@ -200,8 +186,6 @@ const PhysicsWordCloud = () => {
         window.addEventListener('mousemove', handleWindowMouseMove);
         window.addEventListener('mouseup', handleWindowMouseUp);
 
-        // Elevator jolt: scrolling down gives the whole cloud a pop of upward velocity,
-        // like the floor dropping out from under it for a moment.
         const handleWheel = (e) => {
             if (e.deltaY <= 0) return;
             const kick = Math.min(e.deltaY, 120) * 0.09;
@@ -225,7 +209,6 @@ const PhysicsWordCloud = () => {
             });
         });
 
-        // If a pill comes to rest upside-down (unreadable), glitch it back upright.
         const restFrames = new Array(bodies.length).fill(0);
         const glitching = new Array(bodies.length).fill(false);
         const cooldown = new Array(bodies.length).fill(0);
@@ -333,7 +316,7 @@ const PhysicsWordCloud = () => {
                     >
                         <Fade in={openIdx === idx} timeout={250}>
                             <Box sx={modalStyle}>
-                                <Typography variant="h6" component="h2" sx={{ mb: 2 }}>
+                                <Typography variant="h6" component="h2" sx={{ mb: 2, color: 'var(--accent)' }}>
                                     {config.title}
                                 </Typography>
                                 <Typography variant="body1">

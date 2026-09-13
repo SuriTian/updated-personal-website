@@ -1,6 +1,6 @@
 import React from 'react';
-import { useState } from 'react'
 import './Hi.css'
+import AsciiCat from './AsciiCat';
 
 import Slider from 'react-slick';
 
@@ -12,14 +12,13 @@ import duckImg from '../assets/Duck.png';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-
 function Carousel() {
     const settings = {
         dots: true,
         infinite: true,
         autoplay: true,
         speed: 500,
-        slidesToShow: 3, 
+        slidesToShow: 3,
         slidesToScroll: 1,
         centerMode: true,
         centerPadding: "0px",   // optional padding on sides
@@ -73,7 +72,7 @@ const Hi = () => {
                     </p>
                 </div>
                 <div className="right-content">
-                    <img src={businessImg} className="main-image" />
+                    <AsciiCat />
                 </div>
             </div>
 

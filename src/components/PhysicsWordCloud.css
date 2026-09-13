@@ -1,7 +1,7 @@
 .physics-cloud {
     position: relative;
     width: 100%;
-    height: clamp(520px, 88vh, 850px);
+    height: clamp(380px, 58vh, 560px);
     max-width: 1300px;
     margin: 0 auto;
     overflow: hidden;
@@ -46,7 +46,7 @@
     position: absolute;
     inset: -16px;
     border-radius: 999px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(125, 216, 255, 0.5) 40%, transparent 72%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, var(--accent-soft) 40%, transparent 72%);
     opacity: 0;
     animation: pillGlitchExplode 0.38s ease-out;
     pointer-events: none;
@@ -56,7 +56,7 @@
     0% { filter: none; opacity: 1; border-color: rgba(255, 255, 255, 0.15); }
     10% { filter: invert(1) hue-rotate(180deg); opacity: 0.55; }
     20% { filter: none; opacity: 1; }
-    30% { filter: brightness(3) saturate(0); border-color: #7dd8ff; }
+    30% { filter: brightness(3) saturate(0); border-color: var(--accent); }
     40% { filter: none; }
     55% { filter: invert(1); opacity: 0.5; }
     65% { filter: none; border-color: #ffffff; }

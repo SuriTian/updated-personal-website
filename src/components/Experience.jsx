@@ -7,7 +7,6 @@ const experiences = [
         company: "Evertz Microsystems",
         location: "Burlington, ON",
         dates: "May 2026 – Aug 2026",
-        blurb: "Shipped RIST stream filtering, DTLS-encrypted transport, and a time-sync component on embedded video hardware — plus tracked down a nasty bitrate overflow bug along the way."
     }
 ];
 
@@ -25,7 +24,6 @@ const Experience = () => {
                             </div>
                             <p className="experience-dates">{exp.dates}</p>
                         </div>
-                        <p className="experience-blurb">{exp.blurb}</p>
                     </div>
                 ))}
             </div>

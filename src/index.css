@@ -2,3 +2,8 @@ html {
   scroll-behavior: smooth;
 }
 
+:root {
+  --accent: #7dd8ff;
+  --accent-soft: rgba(125, 216, 255, 0.4);
+}
+
