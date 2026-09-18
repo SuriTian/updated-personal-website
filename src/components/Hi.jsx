@@ -8,6 +8,8 @@ import blob3 from '../assets/blobs/blob-3.webp';
 import blob4 from '../assets/blobs/blob-4.webp';
 import blob5 from '../assets/blobs/blob-5.webp';
 import Decor from './Decor';
+import uwSeal from '../assets/school.webp';
+import webring from '../assets/se_webring_white.png';
 
 const HERO_BLOBS = [
     { src: blob1, alt: 'Suri at orientation week, covered in purple paint', ar: 0.614, box: [0, 4, 15, 92], mobile: [0, 0, 46, 56], dur: '9s', delay: '0s', dx: '6px', dy: '14px', rot: '1.5deg' },
@@ -22,8 +24,8 @@ const Hi = () => {
 
     return (
         <section className='hi' id="hi">
-            <Decor size="110px" position={{ left: '4%', top: '4%' }} float={{ dur: '10s', delay: '-1s', dx: '6px', dy: '12px', rot: '4deg' }} />
-            <Decor size="70px" position={{ right: '6%', top: '16%' }} float={{ dur: '8s', delay: '-4s', dx: '-5px', dy: '10px', rot: '-5deg' }} />
+            <Decor eager src={webring} href="https://se-webring.xyz/" label="SE Webring" size="clamp(64px, 6.5vw, 110px)" position={{ left: '4%', top: '4%' }} float={{ dur: '10s', delay: '-1s', dx: '6px', dy: '12px', rot: '4deg' }} />
+            <Decor eager src={uwSeal} alt="University of Waterloo seal" size="clamp(90px, 9vw, 150px)" tilt="8deg" desktopOnly position={{ right: '0%', top: '14%' }} float={{ dur: '8s', delay: '-4s', dx: '-5px', dy: '10px', rot: '-5deg' }} />
             <h1 className="hero-title reveal" ref={titleRef}>
                 I'm Suri,{' '}
                 <span className="hero-sub">
