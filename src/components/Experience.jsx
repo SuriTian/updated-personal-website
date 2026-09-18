@@ -7,7 +7,7 @@ const experiences = [
         role: "Software Engineering Intern",
         company: "Evertz Microsystems",
         location: "Burlington, ON",
-        dates: "May 2026 – Aug 2026",
+        dates: "May 2026 - Aug 2026",
     }
 ];
 

@@ -47,24 +47,24 @@ const MODAL_CONFIG = {
         content: "Elected representative for 140 students, serving as liaison between faculty and the Software Engineering Class of 2030 (Jan 2026–Present).",
     },
     "Waterloo Rocketry": {
-        title: "Building Rockets (Sort Of)",
-        content: "I'm on the Firmware team, writing the code that keeps our canard board's power rails alive and its sensors talking over I2C. Turns out embedded debugging is 10% coding and 90% wondering why the oscilloscope hates you.",
+        title: "Controls",
+        content: "I'm on the firmware team!",
     },
     "AI Drug Discovery": {
         title: "Directed Reading Program",
-        content: "Spent a summer digging into AI-assisted drug design, and mostly ended up cataloguing how differently every paper measures \"success.\" Turns out reproducibility is its own research problem in this field.",
+        content: "Spent a summer digging into AI-assisted drug design.",
     },
     "Entrepreneurship": {
         title: "Two Business Experiences @ Junior Achievement",
-        content: "Repaw Styles VP of Tech, SereniSlimes President",
+        content: "In high school I was involved in a fun program where we created a small company! I was the Repaw Styles VP of Tech and SereniSlimes President.",
     },
     "Music": {
-        title: "I bought Spotify Premium...",
-        content: "Default content",
+        title: "Concerts attended:",
+        content: "Stray Kids, BTS D1, BTS D2, Aespa",
     },
     "Marvel": {
         title: "Avengers: Doomsday",
-        content: "Watched: Captain America: The First Avenger, Captain America: The Winter Soldier, Captain America: Civil War, The Avengers",
+        content: "On a movie marathon to catch up to Avengers: Doomsday. Currently watched: Captain America: The First Avenger, Captain America: The Winter Soldier, Captain America: Civil War, The Avengers",
     },
     default: {
         title: "Info",

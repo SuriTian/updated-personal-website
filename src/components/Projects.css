@@ -89,6 +89,18 @@
     color: var(--text);
 }
 
+.project-link {
+    display: inline-block;
+    margin-top: 1.25rem;
+    color: var(--text);
+    font-weight: 700;
+    text-underline-offset: 4px;
+}
+
+.project-link:hover {
+    text-decoration-thickness: 2px;
+}
+
 .modal-bullets li::marker {
     color: var(--text-muted);
 }

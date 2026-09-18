@@ -70,13 +70,24 @@ const items = [
     },
     {
         name: "SigMaps",
-        category: ["APIs", "Javascript/HTML/CSS", "Git"],
-        bullets: []
+        link: "https://devpost.com/software/sigmaps",
+        category: ["Gemini API", "Flask", "HTML/CSS", "Git"],
+        date: "Sep 2025",
+        bullets: [
+            "Developed a mapping system that generates street-view representations of routes for improved directional clarity.",
+            "Integrated the Gemini API to generate natural-language route descriptions.",
+            "Deployed the application using Vercel."
+        ]
     },
     {
         name: "FlareRed",
-        category: ["APIs", "Javascript/HTML/CSS", "Git"],
-        bullets: []
+        link: "https://devpost.com/software/flarered",
+        category: ["HTML5 Geolocation API", "Leaflet API", "Socket.io", "HTML/CSS", "Git"],
+        date: "Sep 2024",
+        bullets: [
+            "Designed and developed a real-time safety app for women travelers to send instant emergency alerts (“flares”) to trusted contacts.",
+            "Integrated geolocation APIs for instant real-time location tracking on an interactive map."
+        ]
     }
 ];
 
@@ -151,6 +162,11 @@ function ProjectCard({ item, index }) {
                             <Typography variant="body1" sx={{ color: 'var(--text-muted)' }}>
                                 Details coming soon.
                             </Typography>
+                        )}
+                        {item.link && (
+                            <a className="project-link" href={item.link} target="_blank" rel="noreferrer">
+                                View on Devpost ↗
+                            </a>
                         )}
                     </Box>
                 </Fade>
