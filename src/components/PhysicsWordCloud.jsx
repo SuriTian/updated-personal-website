@@ -62,6 +62,10 @@ const MODAL_CONFIG = {
         title: "I bought Spotify Premium...",
         content: "Default content",
     },
+    "Marvel": {
+        title: "Avengers: Doomsday",
+        content: "Watched: Captain America: The First Avenger, Captain America: The Winter Soldier, Captain America: Civil War, The Avengers",
+    },
     default: {
         title: "Info",
         content: "Default content",
@@ -79,6 +83,7 @@ const WORDS = [
     ['AI Drug Discovery', 23],
     ['Entrepreneurship', 23],
     ['Music', 20],
+    ['Marvel', 22],
 ];
 
 function estimateSize(word, fontSize) {
@@ -107,7 +112,7 @@ const PhysicsWordCloud = () => {
     const [openIdx, setOpenIdx] = useState(null);
     const dims = useMemo(() => WORDS.map(([word, size]) => estimateSize(word, size)), []);
     const pointerDown = useRef({ idx: null, x: 0, y: 0, moved: false });
-    const DRAG_THRESHOLD = 6;
+    const DRAG_THRESHOLD = 10;
 
     useEffect(() => {
         const container = containerRef.current;
@@ -162,8 +167,8 @@ const PhysicsWordCloud = () => {
         const mouseConstraint = Matter.MouseConstraint.create(engine, {
             mouse,
             constraint: {
-                stiffness: 0.2,
-                damping: 0.15,
+                stiffness: 0.6,
+                damping: 0.1,
                 render: { visible: false },
             },
         });

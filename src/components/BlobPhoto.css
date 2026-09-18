@@ -1,0 +1,18 @@
+.blob-photo {
+    margin: 0;
+    line-height: 0;
+}
+
+.blob-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 22px 28px rgba(0, 0, 0, 0.5));
+    transition: scale 0.6s var(--ease);
+    animation: blob-float var(--float-dur, 9s) ease-in-out var(--float-delay, 0s) infinite;
+    will-change: translate, rotate;
+}
+
+.blob-photo:hover img {
+    scale: 1.05;
+}

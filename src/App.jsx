@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Navbar from './components/Navbar'
 import Hi from './components/Hi'
 import About from './components/About'
@@ -10,10 +9,12 @@ function App() {
   return (
     <>
       <Navbar />
-      <Hi />
-      <About />
-      <Experience />
-      <Projects />
+      <main>
+        <Hi />
+        <About />
+        <Experience />
+        <Projects />
+      </main>
     </>
   )
 }

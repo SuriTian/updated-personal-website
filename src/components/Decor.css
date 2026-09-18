@@ -1,0 +1,30 @@
+.decor {
+    position: absolute;
+    z-index: -1;
+    width: var(--size);
+    pointer-events: none;
+    animation: blob-float var(--float-dur, 10s) ease-in-out var(--float-delay, 0s) infinite;
+}
+
+.decor img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transform: rotate(var(--tilt, 0deg));
+    filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.35));
+}
+
+.decor-placeholder {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: var(--surface-hover);
+    border: 2px dashed var(--border-strong);
+}
+
+@media (max-width: 760px) {
+    .decor {
+        width: calc(var(--size) * 0.55);
+    }
+}

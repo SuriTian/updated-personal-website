@@ -1,0 +1,27 @@
+.blob-cluster {
+    position: relative;
+    container-type: size;
+    width: 100%;
+    height: 400px;
+}
+
+.blob-cluster-item {
+    --x: var(--x-d);
+    --y: var(--y-d);
+    --w: var(--w-d);
+    --h: var(--h-d);
+    --bw: min(calc(var(--h) * 1cqh * var(--ar)), calc(var(--w) * 1cqw));
+    position: absolute;
+    width: var(--bw);
+    left: calc(var(--x) * 1cqw + (var(--w) * 1cqw - var(--bw)) / 2);
+    top: calc(var(--y) * 1cqh + (var(--h) * 1cqh - var(--bw) / var(--ar)) / 2);
+}
+
+@media (max-width: 760px) {
+    .blob-cluster-item {
+        --x: var(--x-m);
+        --y: var(--y-m);
+        --w: var(--w-m);
+        --h: var(--h-m);
+    }
+}

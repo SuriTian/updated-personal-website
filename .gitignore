@@ -16,9 +16,15 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
+.claude
 .DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Source images kept locally, not shipped
+src/assets/blobs.zip
+src/assets/image.webp
+src/assets/little_prince_radio.webp

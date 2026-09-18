@@ -1,10 +1,11 @@
-import React from 'react';
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import './Projects.css'
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Fade from '@mui/material/Fade';
+import useReveal from '../hooks/useReveal';
+import Decor from './Decor';
 
 const modalStyle = {
     position: 'absolute',
@@ -12,13 +13,16 @@ const modalStyle = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
 
-    width: '80%',
-    maxWidth: '700px',
-    maxHeight: '80%',
+    width: '90%',
+    maxWidth: '640px',
+    maxHeight: '80vh',
     overflowY: 'auto',
-    bgcolor: 'black',
-    border: '2px solid white',
-    p: 4,
+    bgcolor: 'var(--bg-raised)',
+    border: '1px solid var(--border-strong)',
+    borderRadius: 'var(--radius)',
+    boxShadow: '0 40px 90px -30px rgba(0, 0, 0, 0.9)',
+    outline: 'none',
+    p: { xs: 3, sm: 4 },
 };
 
 const items = [
@@ -76,61 +80,75 @@ const items = [
     }
 ];
 
-function ProjectCard({ item }) {
+const slugify = (value) => value.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+function ProjectCard({ item, index }) {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const revealRef = useReveal({ delay: (index % 3) * 90 });
+    const titleId = 'project-' + slugify(item.name) + '-title';
 
     return (
         <>
-            <div className="item" onClick={handleOpen}>
-                <p>{item.name}</p>
-                <div className="tag-container">
+            <button
+                type="button"
+                className="item card reveal"
+                ref={revealRef}
+                onClick={handleOpen}
+                aria-haspopup="dialog"
+            >
+                <span className="item-name">{item.name}</span>
+                <span className="tag-container">
                     {item.category.map((cat, i) => (
                         <span key={i} className='category-tag'>{cat}</span>
                     ))}
-                </div>
-            </div>
+                </span>
+            </button>
 
             <Modal
                 open={open}
                 onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
+                aria-labelledby={titleId}
                 slotProps={{
                     backdrop: {
                         sx: {
-                            backgroundColor: 'transparent',
-                            backdropFilter: 'none',
+                            backgroundColor: 'rgba(8, 22, 21, 0.6)',
+                            backdropFilter: 'blur(4px)',
                         },
                     },
                 }}
             >
                 <Fade in={open} timeout={250}>
                     <Box sx={modalStyle}>
-                        <Typography variant="h6" component="h2" sx={{ mb: item.date ? 0.5 : 2, color: 'var(--accent)' }}>
+                        <Typography
+                            id={titleId}
+                            variant="h6"
+                            component="h2"
+                            sx={{ mb: item.date ? 0.5 : 2, color: 'var(--text)', fontWeight: 700 }}
+                        >
                             {item.name}
                         </Typography>
                         {item.date && (
-                            <Typography variant="body2" sx={{ mb: 2, color: '#999' }}>
+                            <Typography variant="body2" sx={{ mb: 2, color: 'var(--text-muted)' }}>
                                 {item.date}
                             </Typography>
                         )}
-                        <div className="tag-container" style={{ marginBottom: '1rem' }}>
+                        <div className="tag-container" style={{ marginBottom: '1.5rem' }}>
                             {item.category.map((cat, i) => (
                                 <span key={i} className='category-tag'>{cat}</span>
                             ))}
                         </div>
                         {item.bullets.length > 0 ? (
-                            <ul style={{ margin: 0, paddingLeft: '1.2rem' }}>
+                            <ul className="modal-bullets">
                                 {item.bullets.map((bullet, i) => (
-                                    <li key={i} style={{ marginBottom: '8px', lineHeight: 1.5 }}>
+                                    <li key={i}>
                                         <Typography variant="body1">{bullet}</Typography>
                                     </li>
                                 ))}
                             </ul>
                         ) : (
-                            <Typography variant="body1" sx={{ color: '#999' }}>
+                            <Typography variant="body1" sx={{ color: 'var(--text-muted)' }}>
                                 Details coming soon.
                             </Typography>
                         )}
@@ -143,7 +161,6 @@ function ProjectCard({ item }) {
 
 function MultiFilters() {
     const [selectedFilters, setSelectedFilters] = useState([]);
-    const [filteredItems, setfilteredItems] = useState(items);
 
     let filters = ["C#", "Javascript/HTML/CSS", "Python", "Unity", "React", "Research"];
 
@@ -159,27 +176,21 @@ function MultiFilters() {
         }
     };
 
-    useEffect(() => {
-        filterItems();
-    }, [selectedFilters]);
-
-    const filterItems = () => {
-        if (selectedFilters.length > 0) {
-            let tempItems = items.filter((item) =>
-                selectedFilters.some((filter) => item.category.includes(filter))
-            );
-            setfilteredItems(tempItems);
-        } else {
-            setfilteredItems([...items]);
-        }
-    };
+    const filteredItems =
+        selectedFilters.length === 0
+            ? items
+            : items.filter((item) =>
+                  selectedFilters.some((filter) => item.category.includes(filter))
+              );
 
     return (
         <div>
-            <div className='filters'>
+            <div className='filters' role="group" aria-label="Filter projects by technology">
                 {filters.map((category, idx) => (
                     <button
+                        type="button"
                         onClick={() => handleFilterButtonClick(category)}
+                        aria-pressed={selectedFilters.includes(category)}
                         className={`button ${
                             selectedFilters?.includes(category) ? "active" : ""
                         }`}
@@ -192,7 +203,7 @@ function MultiFilters() {
 
             <div className='items-category'>
                 {filteredItems.map((item, idx) => (
-                    <ProjectCard item={item} key={`items-${idx}`} />
+                    <ProjectCard item={item} index={idx} key={`items-${item.name}`} />
                 ))}
             </div>
 
@@ -202,9 +213,15 @@ function MultiFilters() {
 
 
 const Projects = () => {
+    const titleRef = useReveal();
+
     return (
         <section className='projects' id="projects">
-            <h1>Projects</h1>
+            <Decor size="100px" position={{ left: '-6%', top: '6%' }} float={{ dur: '10s', delay: '-7s', dx: '5px', dy: '12px', rot: '5deg' }} />
+            <Decor size="140px" position={{ right: '-5%', bottom: '4%' }} float={{ dur: '11s', delay: '-1s', dx: '-7px', dy: '13px', rot: '-4deg' }} />
+            <header className="section-title reveal" ref={titleRef}>
+                <h2>Projects</h2>
+            </header>
             <MultiFilters />
         </section>
     );
